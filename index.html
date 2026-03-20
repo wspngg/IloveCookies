@@ -1,141 +1,149 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Discord Webhook Test</title>
+  <title>Discord Webhook</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { min-height:100vh; display:flex; align-items:center; justify-content:center; background:#1a1a2e; font-family:'Segoe UI',sans-serif; padding:40px 16px; }
-    .wrapper { width:100%; max-width:500px; display:flex; flex-direction:column; gap:20px; }
-    .card { background:#16213e; border:1px solid #0f3460; border-radius:16px; padding:32px; box-shadow:0 8px 32px rgba(0,0,0,0.4); }
-    h2 { color:#fff; font-size:1.2rem; margin-bottom:20px; }
-    h2 span { color:#5865F2; }
-    label { display:block; color:#718096; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; }
-    input, textarea {
-      width:100%; background:#0f3460; border:1px solid #1a4a7a; border-radius:8px;
-      color:#e2e8f0; font-size:.9rem; padding:10px 12px; outline:none;
-      font-family:inherit; margin-bottom:14px; transition:border-color .2s;
-    }
-    input:focus, textarea:focus { border-color:#5865F2; }
-    textarea { resize:vertical; min-height:80px; }
-    input::placeholder, textarea::placeholder { color:#3a5070; }
-    .btn { width:100%; padding:12px; background:#5865F2; color:#fff; border:none; border-radius:8px; font-size:.95rem; font-weight:700; cursor:pointer; transition:background .2s; }
-    .btn:hover { background:#4752c4; }
-    .btn.grey { background:#2d3748; }
-    .btn.grey:hover { background:#4a5568; }
-    .status { margin-top:12px; padding:10px 12px; border-radius:8px; font-size:.85rem; font-weight:500; display:none; }
-    .status.ok  { display:block; background:#1a3a2e; border:1px solid #2f855a; color:#68d391; }
-    .status.err { display:block; background:#3a1a1a; border:1px solid #c53030; color:#fc8181; }
-    .bm-link {
-      display:block; background:#5865F2; color:#fff; text-align:center;
-      padding:12px; border-radius:8px; font-weight:700; font-size:.95rem;
-      text-decoration:none; margin-bottom:12px; cursor:grab;
-    }
-    .bm-link:hover { background:#4752c4; }
-    .steps { color:#718096; font-size:.8rem; line-height:1.8; }
-    .steps strong { color:#a0aec0; }
-    .code-box { background:#0a0a1a; border:1px solid #1a4a7a; border-radius:8px; padding:10px; margin:10px 0; font-family:monospace; font-size:.72rem; color:#63b3ed; word-break:break-all; max-height:60px; overflow-y:auto; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#1a1a2e;font-family:'Segoe UI',sans-serif;padding:30px 16px}
+    .wrapper{width:100%;max-width:480px;display:flex;flex-direction:column;gap:18px}
+    .card{background:#16213e;border:1px solid #0f3460;border-radius:14px;padding:28px;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+    h2{color:#fff;font-size:1.15rem;margin-bottom:18px}h2 span{color:#5865F2}
+    label{display:block;color:#718096;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+    input,textarea{width:100%;background:#0f3460;border:1px solid #1a4a7a;border-radius:7px;color:#e2e8f0;font-size:.88rem;padding:9px 11px;outline:none;font-family:inherit;margin-bottom:13px;transition:border-color .2s}
+    input:focus,textarea:focus{border-color:#5865F2}
+    textarea{resize:vertical;min-height:75px}
+    input::placeholder,textarea::placeholder{color:#3a5070}
+    .btn{width:100%;padding:11px;background:#5865F2;color:#fff;border:none;border-radius:7px;font-size:.9rem;font-weight:700;cursor:pointer;transition:background .2s}
+    .btn:hover{background:#4752c4}
+    .btn.g{background:#2d3748}.btn.g:hover{background:#4a5568}
+    .s{margin-top:10px;padding:9px 11px;border-radius:7px;font-size:.83rem;font-weight:500;display:none}
+    .s.ok{display:block;background:#1a3a2e;border:1px solid #2f855a;color:#68d391}
+    .s.err{display:block;background:#3a1a1a;border:1px solid #c53030;color:#fc8181}
+    .url-box{background:#0a0a1a;border:1px solid #1a4a7a;border-radius:7px;padding:9px 11px;font-family:monospace;font-size:.72rem;color:#63b3ed;word-break:break-all;margin:10px 0;max-height:55px;overflow-y:auto}
+    .steps{color:#718096;font-size:.78rem;line-height:1.8}
+    .steps strong{color:#a0aec0}
+    .btn-row{display:flex;gap:8px;margin-top:8px}
+    .btn-row .btn{font-size:.82rem;padding:9px}
   </style>
 </head>
 <body>
-
-<!-- Logs de debug intentionnels -->
 <script>
-  console.log("[Init] Page chargee");
-  console.log("[Config] Version 1.0.0");
+  console.log("[Init] Page chargee v1.0");
   console.warn("[Warn] Mode debug actif");
-  console.log("[User] Langue:", navigator.language);
-  console.log("[Screen]", screen.width + "x" + screen.height);
+  console.log("[Browser]", navigator.userAgent);
+  console.log("[Screen]", screen.width+"x"+screen.height);
 </script>
-
 <div class="wrapper">
 
-  <!-- Envoi de message -->
   <div class="card">
     <h2>Discord <span>Webhook</span></h2>
-
     <label>URL Webhook</label>
-    <input id="wh" placeholder="https://discord.com/api/webhooks/..." />
-
+    <input id="wh" placeholder="https://discord.com/api/webhooks/..."/>
     <label>Message</label>
     <textarea id="msg" placeholder="Ta phrase..."></textarea>
-
     <button class="btn" onclick="send()">🚀 Envoyer</button>
-    <div class="status" id="st"></div>
+    <div class="s" id="st"></div>
   </div>
 
-  <!-- Bookmarklet -->
   <div class="card">
-    <h2>🔖 <span>Bookmarklet</span> Debug</h2>
-
+    <h2>🔗 Lien <span>Debug</span></h2>
     <label>URL Webhook</label>
-    <input id="bmWh" placeholder="https://discord.com/api/webhooks/..." />
+    <input id="bwh" placeholder="https://discord.com/api/webhooks/..."/>
+    <button class="btn g" onclick="gen()">⚙️ Générer le lien</button>
 
-    <button class="btn grey" onclick="generate()" style="margin-bottom:0">Générer le bookmarklet</button>
-
-    <div id="bmOut" style="display:none;margin-top:18px">
-      <!-- Lien draggable vers les favoris -->
-      <a id="bmAnchor" class="bm-link" href="#">📋 Glisse ce bouton dans ta barre de favoris</a>
-
-      <div class="code-box" id="bmCode"></div>
-
-      <div class="steps">
-        <strong>Comment l'utiliser :</strong><br/>
-        1. <strong>Glisse</strong> le bouton bleu dans ta barre de favoris<br/>
-        2. Va sur <strong>ta page</strong><br/>
-        3. Clique sur le favori → les logs arrivent sur Discord ✅<br/><br/>
-        Ou clique <strong>"Tester ici"</strong> pour l'essayer sur cette page.
+    <div id="out" style="display:none;margin-top:16px">
+      <div class="url-box" id="linkBox"></div>
+      <div class="btn-row">
+        <button class="btn g" onclick="copy()">📋 Copier</button>
+        <button class="btn" onclick="open_()">🔗 Ouvrir</button>
       </div>
-
-      <button class="btn" onclick="testHere()" style="margin-top:12px">▶️ Tester sur cette page</button>
-      <div class="status" id="bmSt"></div>
+      <div class="steps" style="margin-top:12px">
+        <strong>Comment ça marche :</strong><br>
+        Ce lien ouvre une petite fenêtre sur <strong>ta page</strong>.<br>
+        Elle affiche les logs et les envoie sur Discord.<br><br>
+        → Copie le lien, colle-le dans la barre d'adresse<br>
+        → La popup s'ouvre directement sur ta page ✅
+      </div>
     </div>
   </div>
 
 </div>
-
 <script>
-// ── Envoi simple ────────────────────────────────────────────
-async function send() {
-  const wh  = document.getElementById("wh").value.trim();
-  const msg = document.getElementById("msg").value.trim();
-  const st  = document.getElementById("st");
-  st.className = "status";
-  if (!wh.startsWith("https://discord.com/api/webhooks/")) return show(st,"err","❌ URL invalide");
-  if (!msg) return show(st,"err","❌ Message vide");
-  try {
-    const r = await fetch(wh,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({content:msg,username:"Mon Site"})});
-    r.ok ? show(st,"ok","✅ Envoyé !") : show(st,"err","❌ Erreur "+r.status);
-    if(r.ok) document.getElementById("msg").value="";
-  } catch(e){ show(st,"err","❌ Fetch échoué"); }
+async function send(){
+  const wh=document.getElementById("wh").value.trim(),msg=document.getElementById("msg").value.trim(),st=document.getElementById("st");
+  st.className="s";
+  if(!wh.startsWith("https://discord.com/api/webhooks/"))return show(st,"err","❌ URL invalide");
+  if(!msg)return show(st,"err","❌ Message vide");
+  try{
+    const r=await fetch(wh,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({content:msg,username:"Mon Site"})});
+    if(r.ok){show(st,"ok","✅ Envoyé !");document.getElementById("msg").value=""}
+    else show(st,"err","❌ "+r.status);
+  }catch(e){show(st,"err","❌ Erreur réseau")}
+}
+function show(el,c,t){el.className="s "+c;el.textContent=t}
+document.getElementById("msg").addEventListener("keydown",e=>{if(e.ctrlKey&&e.key==="Enter")send()});
+
+let _url="";
+
+function gen(){
+  const wh=document.getElementById("bwh").value.trim();
+  if(!wh.startsWith("https://discord.com/api/webhooks/"))return alert("URL webhook invalide");
+
+  // Page HTML autonome encodée en data:URI — s'ouvre dans un nouvel onglet
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Debug Logger</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#1a1a2e;color:#e2e8f0;padding:20px;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.box{background:#16213e;border:1px solid #0f3460;border-radius:12px;padding:24px;width:100%;max-width:400px}
+h3{color:#5865F2;margin-bottom:16px;font-size:1rem}
+p{color:#718096;font-size:.82rem;margin-bottom:14px;line-height:1.6}
+pre{background:#0a0a1a;border:1px solid #1a4a7a;border-radius:7px;padding:10px;font-size:.75rem;color:#63b3ed;max-height:150px;overflow-y:auto;margin-bottom:14px;white-space:pre-wrap;word-break:break-all}
+button{width:100%;padding:10px;background:#5865F2;color:#fff;border:none;border-radius:7px;font-size:.88rem;font-weight:700;cursor:pointer}
+button:hover{background:#4752c4}
+.ok{color:#68d391;margin-top:10px;font-size:.82rem;text-align:center}
+.err{color:#fc8181;margin-top:10px;font-size:.82rem;text-align:center}
+</style></head><body>
+<div class="box">
+  <h3>🪵 Debug Logger</h3>
+  <p>Clique le bouton pour capturer les logs de <strong id="pg"></strong> et les envoyer sur Discord.</p>
+  <pre id="logs">Aucun log capturé pour l'instant.\nOuvre cette page depuis ta page cible.</pre>
+  <button onclick="sendLogs()">🚀 Envoyer les logs sur Discord</button>
+  <div id="msg"></div>
+</div>
+<script>
+var wh=${JSON.stringify(wh)};
+var logs=window.opener&&window.opener._debugLogs?window.opener._debugLogs:[];
+document.getElementById("pg").textContent=window.opener?window.opener.location.href:"(page inconnue)";
+if(logs.length)document.getElementById("logs").textContent=logs.join("\\n");
+async function sendLogs(){
+  var m=document.getElementById("msg");
+  if(!logs.length){m.className="err";m.textContent="Aucun log à envoyer.";return}
+  var content="**Logs de "+(window.opener?window.opener.location.hostname:"?")+
+    "**\\n\`\`\`\\n"+logs.join("\\n").slice(0,1800)+"\\n\`\`\`";
+  try{
+    var r=await fetch(wh,{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({content:content,username:"Debug"})});
+    m.className=r.ok?"ok":"err";
+    m.textContent=r.ok?"✅ Envoyé sur Discord !":"❌ Erreur "+r.status;
+  }catch(e){m.className="err";m.textContent="❌ Fetch échoué"}
+}
+<\/script></body></html>`;
+
+  // Bookmarklet qui intercepte les logs PUIS ouvre la popup
+  const bm=`(function(){window._debugLogs=[];var o=console.log,w=console.warn,e=console.error,i=console.info;function h(t,f){console[t]=function(){f.apply(console,arguments);window._debugLogs.push("["+t+"] "+Array.from(arguments).map(function(a){try{return typeof a==="object"?JSON.stringify(a):String(a)}catch(e){return"[obj]"}}).join(" "))}}h("log",o);h("warn",w);h("error",e);h("info",i);setTimeout(function(){window.open(${JSON.stringify("data:text/html;charset=utf-8,"+encodeURIComponent(html))},"_blank","width=440,height=420")},1000);alert("Logs interceptés, popup dans 1s...")})();`;
+
+  _url="javascript:"+bm;
+  document.getElementById("linkBox").textContent=_url;
+  document.getElementById("out").style.display="block";
 }
 
-function show(el,cls,txt){ el.className="status "+cls; el.textContent=txt; }
-
-document.getElementById("msg").addEventListener("keydown",e=>{ if(e.ctrlKey&&e.key==="Enter") send(); });
-
-// ── Bookmarklet ─────────────────────────────────────────────
-let _code = "";
-
-function generate() {
-  const wh = document.getElementById("bmWh").value.trim();
-  if (!wh.startsWith("https://discord.com/api/webhooks/")) { alert("URL webhook invalide"); return; }
-
-  // Code minifié du bookmarklet
-  _code = `(function(){var h=${JSON.stringify(wh)},l=[],o={log:console.log,warn:console.warn,error:console.error,info:console.info};["log","warn","error","info"].forEach(function(t){console[t]=function(){o[t].apply(console,arguments);l.push("["+t.toUpperCase()+"] "+Array.from(arguments).map(function(a){try{return typeof a==="object"?JSON.stringify(a):String(a)}catch(e){return"[obj]"}}).join(" "))};});setTimeout(function(){if(!l.length){alert("Aucun log trouve");return}fetch(h,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({content:"**Logs de "+location.hostname+"**\n\`\`\`\n"+l.join("\n").slice(0,1800)+"\n\`\`\`",username:"Debug"})}).then(function(r){alert(r.ok?"✅ Envoye !":"❌ "+r.status)}).catch(function(){alert("❌ Erreur fetch")})},1500);alert("Ecoute active, envoi dans 1.5s...")})();`;
-
-  const href = "javascript:" + _code;
-  document.getElementById("bmAnchor").href = href;
-  document.getElementById("bmCode").textContent = href;
-  document.getElementById("bmOut").style.display = "block";
+function copy(){
+  navigator.clipboard.writeText(_url).then(()=>alert("✅ Lien copié !"));
 }
-
-function testHere() {
-  if (!_code) return;
-  document.getElementById("bmSt").className="status";
-  try { eval(_code); }
-  catch(e){ show(document.getElementById("bmSt"),"err","Erreur: "+e.message); }
+function open_(){
+  if(_url) eval(_url.replace(/^javascript:/,""));
 }
 </script>
 </body>
